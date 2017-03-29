@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import cmsz.autoflow.engine.Constant;
 import cmsz.autoflow.engine.DelegateTask;
 import cmsz.autoflow.engine.helper.JsonHelper;
 import cmsz.autoflow.engine.helper.StringHelper;
@@ -16,13 +15,13 @@ public class Task implements Serializable, DelegateTask {
 	 */
 	private static final long serialVersionUID = -57576037706626126L;
 
-// 	任务状态
-//	public static final String STATE_START = "START";
-//	public static final String STATE_RUNNING = "RUNNING";
-//	public static final String STATE_EXCEPTION = "EXCEPTION";
-//	public static final String STATE_FAILED = "FAILED";
-//	public static final String STATE_SUCCESS = "SUCCESS";
-//	public static final String STATE_ERROR = "ERROR";
+	// 任务状态
+	// public static final String STATE_START = "START";
+	// public static final String STATE_RUNNING = "RUNNING";
+	// public static final String STATE_EXCEPTION = "EXCEPTION";
+	// public static final String STATE_FAILED = "FAILED";
+	// public static final String STATE_SUCCESS = "SUCCESS";
+	// public static final String STATE_ERROR = "ERROR";
 
 	/**
 	 * 主键 id
@@ -84,22 +83,20 @@ public class Task implements Serializable, DelegateTask {
 	 * 任务变量
 	 */
 	private String variables;
-	
-
 
 	public String getComponentId() {
 		return taskModel.getRefComponent();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cmsz.autoflow.engine.DelegateTask#getDubboId()
 	 */
 	@Override
 	public String getDubboId() {
 		return taskModel.getRefDubbo();
 	}
-
-
 
 	@Override
 	public String getId() {
@@ -159,8 +156,7 @@ public class Task implements Serializable, DelegateTask {
 	}
 
 	public Map<String, Object> getVariableMap() {
-		return this.variables == null ? new HashMap<String, Object>()
-				: JsonHelper.fromJson(this.variables, Map.class);
+		return this.variables == null ? new HashMap<String, Object>() : JsonHelper.fromJson(this.variables, Map.class);
 	}
 
 	public void setVariables(String variables) {
@@ -238,10 +234,10 @@ public class Task implements Serializable, DelegateTask {
 			this.updateVariables = new HashMap<String, Object>();
 		}
 		this.updateVariables.putAll(args);
-		args.remove(Constant.ARGS_COMMON);
+		// 需要将流程参数map进行还原更新
+		// args.remove(Constant.ARGS_COMMON);
 		if (StringHelper.isNotEmpty(this.variables)) {
-			Map<String, Object> vars = JsonHelper.fromJson(this.variables,
-					Map.class);
+			Map<String, Object> vars = JsonHelper.fromJson(this.variables, Map.class);
 			vars.putAll(args);
 			this.variables = JsonHelper.toJson(vars);
 		} else {
@@ -256,6 +252,5 @@ public class Task implements Serializable, DelegateTask {
 	public Map<String, Object> getUpdateVariables() {
 		return this.updateVariables;
 	}
-
 
 }
